@@ -42,7 +42,7 @@ public class ToDoService {
     	
     }
     
-public ResponseEntity<ToDo> deleteUser(int id){
+    public ResponseEntity<ToDo> deleteToDo(int id){
 		
 		Optional <ToDo> deletedToDo = toDoRepository.findById(id);
 		
