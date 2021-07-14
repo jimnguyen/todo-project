@@ -26,9 +26,7 @@ public class ToDoService {
     }
     
     public ResponseEntity<ToDo> addToDo(ToDo todo) {
-    	
     	return ResponseEntity.status(201).body(toDoRepository.save(todo));
-    	
     }
     
     public ResponseEntity<ToDo> updateToDo(int id, String description, Date updatedDate){
@@ -39,12 +37,11 @@ public class ToDoService {
     	toDoUpdated.setDueDate(updatedDate);
     	
     	return ResponseEntity.status(200).body(toDoRepository.save(toDoUpdated));
-    	
     }
     
     public ResponseEntity<ToDo> deleteToDo(int id){
 		
-		Optional <ToDo> deletedToDo = toDoRepository.findById(id);
+		Optional<ToDo> deletedToDo = toDoRepository.findById(id);
 		
 		if(deletedToDo.isPresent()) {
 			toDoRepository.deleteById(id);
@@ -53,10 +50,5 @@ public class ToDoService {
 		}
 		
 		return ResponseEntity.status(400).body(new ToDo());
-		
-				
-				
 	}
-    
-    
 }

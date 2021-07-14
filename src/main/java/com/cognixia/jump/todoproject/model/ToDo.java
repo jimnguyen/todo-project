@@ -76,6 +76,4 @@ public class ToDo {
 	public String toString() {
 		return "ToDo [id=" + id + ", description=" + description + ", dueDate=" + dueDate + ", user=" + user + "]";
 	}
-
-    
 }

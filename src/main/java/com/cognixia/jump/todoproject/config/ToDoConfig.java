@@ -26,7 +26,6 @@ public class ToDoConfig {
             ToDo todo2 = new ToDo(null, "buy groceries", new Date(), u2);
             userRepository.saveAll(List.of(u1, u2));
             toDoRepository.saveAll(List.of(todo, todo2));
-            
         };
     }
 }
