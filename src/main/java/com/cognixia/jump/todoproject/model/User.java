@@ -35,7 +35,7 @@ public class User implements Serializable {
 	@Column(columnDefinition = "varchar(50)")
 	private String password;
 
-	@Column( columnDefinition = "boolean default true" )
+	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
 
 	@Enumerated(EnumType.STRING)
