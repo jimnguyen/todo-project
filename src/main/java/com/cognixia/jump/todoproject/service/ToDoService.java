@@ -20,8 +20,9 @@ public class ToDoService {
         this.toDoRepository = toDoRepository;
     }
 
-    public List<ToDo> getAllToDos() {
-        return toDoRepository.findAll();
+    public ResponseEntity<List<ToDo>> getAllToDos() {
+        List<ToDo> toDoList = toDoRepository.findAll();
+        return ResponseEntity.status(200).body(toDoList);
     }
 
     public ResponseEntity<ToDo> addToDo(ToDo todo) {

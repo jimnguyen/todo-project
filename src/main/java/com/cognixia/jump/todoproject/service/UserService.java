@@ -24,12 +24,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User getUserById(int id) {
-        return userRepository.getById(id);
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> userList = userRepository.findAll();
+        return ResponseEntity.status(200).body(userList);
     }
 
     public ResponseEntity<User> addUser(User user) {
@@ -38,8 +35,8 @@ public class UserService {
 
     public ResponseEntity<User> deleteUser(int id) {
         Optional<User> deletedUser = userRepository.findById(id);
-        
-        //check if the User we are deleting exists
+
+        // check if the User we are deleting exists
         if (deletedUser.isPresent()) {
             userRepository.deleteById(id);
             return ResponseEntity.status(200).body(deletedUser.get());
@@ -53,55 +50,65 @@ public class UserService {
                 () -> new ResourceNotFoundException("user with " + id + " does not exist")
         );
 
-        //check first name
+        // FIRST NAME
         if (updatedUser.getFirstName() != null) {
-        	//check if input for first Name is not blank
+
+            // check if first name is valid
             if (updatedUser.getFirstName().trim().length() < 1) {
-
                 throw new IllegalArgumentException("Please enter a valid first name");
-                //check if first name inputed is different or not from whats in the databse
-            } else if (updatedUser.getFirstName().equals(currentUser.getFirstName())) {
 
+                // check if first name is equal to what already exists
+            } else if (updatedUser.getFirstName().equals(currentUser.getFirstName())) {
                 throw new SameInputException("first name");
             } else {
+
+                // perform update
                 currentUser.setFirstName(updatedUser.getFirstName());
             }
         } else {
-        	
-        	//if null value is provided for first Name, we do not change anything
+
+            // if null then retrieve old info
             currentUser.setFirstName(currentUser.getFirstName());
         }
 
-        //check last name
+        // LAST NAME
         if (updatedUser.getLastName() != null) {
-        	   //check if last name inputed is different or not from whats in the databse
-            if (updatedUser.getLastName().trim().length() < 1) {
 
+            // check if last name is valid
+            if (updatedUser.getLastName().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid last name");
 
+                // check if last name is equal to what already exists
             } else if (updatedUser.getLastName().equals(currentUser.getLastName())) {
-
                 throw new SameInputException("last name");
             } else {
+
+                // perform update
                 currentUser.setLastName(updatedUser.getLastName());
             }
         } else {
+
+            // if null then retrieve old info
             currentUser.setLastName(currentUser.getLastName());
         }
 
-        //check username
+        // USERNAME
         if (updatedUser.getUsername() != null) {
-        	   //check if first name inputed is different or not from whats in the databse
+
+            // check if username is valid
             if (updatedUser.getUsername().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid username");
-                //check if the updated username is different from old username, if not throws a SameInputException
+
+                // check if username is equal to what already exists
             } else if (updatedUser.getUsername().equals(currentUser.getUsername())) {
                 throw new SameInputException("username");
             } else {
+                // perform update
                 currentUser.setUsername(updatedUser.getUsername());
             }
         } else {
-        	//Check to make sure the username you want to be updated is not already in the database. Althoug JPA seems to handle that
+
+            // check if username doesn't already exist
             Optional<User> existingUser = userRepository.findByUsername(updatedUser.getUsername());
             if (existingUser.isEmpty()) {
                 currentUser.setUsername(currentUser.getUsername());
@@ -110,19 +117,24 @@ public class UserService {
             }
         }
 
-        //check password
+        // PASSWORD
         if (updatedUser.getPassword() != null) {
-        	
+
+            // check if password is valid
             if (updatedUser.getPassword().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid password to update");
-                //check if password inputed is different or not from whats in the databse
-            } else if (updatedUser.getPassword().equals(currentUser.getPassword())) {
 
+                // check if password is equal to what already exists
+            } else if (updatedUser.getPassword().equals(currentUser.getPassword())) {
                 throw new SameInputException("password");
             } else {
+
+                // perform update
                 currentUser.setPassword(updatedUser.getPassword());
             }
         } else {
+
+            // if null then retrieve old info
             currentUser.setPassword(currentUser.getPassword());
         }
 

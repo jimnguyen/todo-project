@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,7 +22,7 @@ public class ToDoController {
     }
 
     @GetMapping(path = "/todo")
-    public List<ToDo> getTodos() {
+    public ResponseEntity<List<ToDo>> getTodos() {
         return toDoService.getAllToDos();
     }
     

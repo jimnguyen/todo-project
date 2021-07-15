@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/user")
-    public List<User> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         return userService.getAllUsers();
     }
 
@@ -36,5 +36,10 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable int id,
                                            @Valid @RequestBody User updatedUser) throws SameInputException, ResourceNotFoundException, UsernameAlreadyExistsException {
         return userService.updateUser(id, updatedUser);
+    }
+
+    @DeleteMapping(path = "/user/delete/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable int id) {
+        return userService.deleteUser(id);
     }
 }
