@@ -38,7 +38,8 @@ public class UserService {
 
     public ResponseEntity<User> deleteUser(int id) {
         Optional<User> deletedUser = userRepository.findById(id);
-
+        
+        //check if the User we are deleting exists
         if (deletedUser.isPresent()) {
             userRepository.deleteById(id);
             return ResponseEntity.status(200).body(deletedUser.get());
@@ -54,10 +55,11 @@ public class UserService {
 
         //check first name
         if (updatedUser.getFirstName() != null) {
+        	//check if input for first Name is not blank
             if (updatedUser.getFirstName().trim().length() < 1) {
 
                 throw new IllegalArgumentException("Please enter a valid first name");
-
+                //check if first name inputed is different or not from whats in the databse
             } else if (updatedUser.getFirstName().equals(currentUser.getFirstName())) {
 
                 throw new SameInputException("first name");
@@ -65,11 +67,14 @@ public class UserService {
                 currentUser.setFirstName(updatedUser.getFirstName());
             }
         } else {
+        	
+        	//if null value is provided for first Name, we do not change anything
             currentUser.setFirstName(currentUser.getFirstName());
         }
 
         //check last name
         if (updatedUser.getLastName() != null) {
+        	   //check if last name inputed is different or not from whats in the databse
             if (updatedUser.getLastName().trim().length() < 1) {
 
                 throw new IllegalArgumentException("Please enter a valid last name");
@@ -86,14 +91,17 @@ public class UserService {
 
         //check username
         if (updatedUser.getUsername() != null) {
+        	   //check if first name inputed is different or not from whats in the databse
             if (updatedUser.getUsername().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid username");
+                //check if the updated username is different from old username, if not throws a SameInputException
             } else if (updatedUser.getUsername().equals(currentUser.getUsername())) {
                 throw new SameInputException("username");
             } else {
                 currentUser.setUsername(updatedUser.getUsername());
             }
         } else {
+        	//Check to make sure the username you want to be updated is not already in the database. Althoug JPA seems to handle that
             Optional<User> existingUser = userRepository.findByUsername(updatedUser.getUsername());
             if (existingUser.isEmpty()) {
                 currentUser.setUsername(currentUser.getUsername());
@@ -104,8 +112,10 @@ public class UserService {
 
         //check password
         if (updatedUser.getPassword() != null) {
+        	
             if (updatedUser.getPassword().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid password to update");
+                //check if password inputed is different or not from whats in the databse
             } else if (updatedUser.getPassword().equals(currentUser.getPassword())) {
 
                 throw new SameInputException("password");

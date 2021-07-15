@@ -35,23 +35,29 @@ public class ToDoService {
 
         // check description
         if (updatedToDo.getDescription() != null) {
+        	//if updated description is empty white space, throw exception
             if (updatedToDo.getDescription().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid description");
+                //check if description updated is different than database otherwise throws exception
             } else if (updatedToDo.getDescription().equals(currentToDo.getDescription())) {
                 throw new SameInputException("description");
             } else {
                 currentToDo.setDescription(updatedToDo.getDescription());
             }
+            //if description value is null, don't change anything in the database
         } else {
             currentToDo.setDescription(currentToDo.getDescription());
         }
 
         // check due date
         if (updatedToDo.getDueDate() != null) {
+        	//if due date provided is white space, throw exception
             if (updatedToDo.getDueDate().toString().trim().length() < 1) {
                 throw new IllegalArgumentException("Please enter a valid due date");
+                //check if due date to updated is different from whats in the database, if not throw exception
             } else if (updatedToDo.getDueDate().equals(currentToDo.getDueDate())) {
                 throw new SameInputException("due date");
+                
             } else {
                 currentToDo.setDueDate(updatedToDo.getDueDate());
             }

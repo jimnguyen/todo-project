@@ -33,6 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+    	
+    	/*
+    	 * Everyone has the permission to Get and Post "/api/user"
+    	 * 
+    	 * Only Roles USER and ADMIN have access to update their user profile and CRUD operations on TO-DOs
+    	 */
+    	
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/user").permitAll()

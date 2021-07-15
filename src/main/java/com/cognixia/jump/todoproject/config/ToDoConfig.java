@@ -15,8 +15,9 @@ import java.util.List;
 
 @Configuration
 public class ToDoConfig {
-
-    @Bean
+	
+	//We are setting up initial Data Here in the database
+	@Bean
     CommandLineRunner commandLineRunner(ToDoRepository toDoRepository, UserRepository userRepository ) {
         return args -> {
         	User u1 = new User(null, "Jim", "N", "JimN", "12345", true, User.Role.ROLE_ADMIN, new ArrayList<>());
