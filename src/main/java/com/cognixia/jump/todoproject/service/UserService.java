@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.cognixia.jump.todoproject.exception.ResourceNotFoundException;
 import com.cognixia.jump.todoproject.exception.SameInputException;
+import com.cognixia.jump.todoproject.exception.UsernameAlreadyExistsException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -45,35 +47,77 @@ public class UserService {
 		return ResponseEntity.status(400).body(new User());
 	}
 
-	public ResponseEntity<User> updateUser(int id, User updatedUser) throws SameInputException, ResourceNotFoundException {
+	public ResponseEntity<User> updateUser(int id, User updatedUser) throws SameInputException, ResourceNotFoundException, UsernameAlreadyExistsException {
 		User currentUser = userRepository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException("user with " + id + " does not exist")
 		);
-
-		if (updatedUser.getFirstName() == null
-				|| updatedUser.getFirstName().length() < 1
-				|| updatedUser.getFirstName().equals(currentUser.getFirstName())) {
+		
+		
+		//check first name
+		if(updatedUser.getFirstName().trim().length() <1  )	{
+			
+			 throw new IllegalArgumentException("Please enter a valid first name");
+			
+		}else if(updatedUser.getFirstName().equals(currentUser.getFirstName())){
+			
 			throw new SameInputException("first name");
 		}
-
-		if (updatedUser.getLastName() == null
-				|| updatedUser.getLastName().length() < 1
-				|| updatedUser.getLastName().equals(currentUser.getLastName())) {
+		else {
+			currentUser.setFirstName(updatedUser.getFirstName());
+		}
+		
+		
+		//check last name
+		if(updatedUser.getLastName().trim().length() <1  )	{
+			
+			 throw new IllegalArgumentException("Please enter a valid last name");
+			
+		}else if(updatedUser.getLastName().equals(currentUser.getLastName())){
+			
 			throw new SameInputException("last name");
 		}
-
-		if (updatedUser.getUsername() == null
-				|| updatedUser.getUsername().length() < 1
-				|| updatedUser.getUsername().equals(currentUser.getUsername())) {
+		else {
+			currentUser.setLastName(updatedUser.getLastName());
+		}
+		
+		
+		//check username
+		if(updatedUser.getUsername().trim().length() <1  )	{
+			
+			 throw new IllegalArgumentException("Please enter a valid username");
+			
+		}else if(updatedUser.getUsername().equals(currentUser.getUsername())){
+			
 			throw new SameInputException("username");
 		}
-
-		if (updatedUser.getPassword() == null
-				|| updatedUser.getPassword().length() < 1
-				|| updatedUser.getPassword().equals(currentUser.getPassword())) {
+		else {
+			
+			Optional <User> existingUser = userRepository.findByUsername(updatedUser.getUsername());
+			if(!existingUser.isPresent()) {
+			currentUser.setUsername(updatedUser.getUsername());
+			}else {
+				throw new UsernameAlreadyExistsException("A username with the name " + updatedUser.getUsername() + " already exist. Please pick another username");
+			}
+			
+		}
+		
+		
+		//check password
+		
+		if(updatedUser.getPassword().trim().length() <1  )	{
+			
+			 throw new IllegalArgumentException("Please enter a valid password to update");
+			
+		}else if(updatedUser.getPassword().equals(currentUser.getPassword())){
+			
 			throw new SameInputException("password");
 		}
-
+		else {
+			currentUser.setPassword(updatedUser.getPassword());
+		}
+		
+		
+		
 		return ResponseEntity.status(200).body(userRepository.save(updatedUser));
 	}
 }

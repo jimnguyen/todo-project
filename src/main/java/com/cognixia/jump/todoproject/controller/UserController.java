@@ -2,6 +2,7 @@ package com.cognixia.jump.todoproject.controller;
 
 import com.cognixia.jump.todoproject.exception.ResourceNotFoundException;
 import com.cognixia.jump.todoproject.exception.SameInputException;
+import com.cognixia.jump.todoproject.exception.UsernameAlreadyExistsException;
 import com.cognixia.jump.todoproject.model.User;
 import com.cognixia.jump.todoproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserController {
 
     @PutMapping(path = "/user/update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable int id,
-                                           @Valid @RequestBody User updatedUser) throws SameInputException, ResourceNotFoundException {
+                                           @Valid @RequestBody User updatedUser) throws SameInputException, ResourceNotFoundException, UsernameAlreadyExistsException {
         return userService.updateUser(id, updatedUser);
     }
 }
