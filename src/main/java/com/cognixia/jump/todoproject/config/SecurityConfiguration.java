@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
@@ -31,17 +31,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return NoOpPasswordEncoder.getInstance();
     }
 
-    // which users have access to which uri paths
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/user").hasRole("ADMIN")
-                .antMatchers("/api/useraccess").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/api/user").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/car").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/book/*").hasRole("USER")
-                .antMatchers("/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/user").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/user").permitAll()
+                .antMatchers(HttpMethod.PUT,"/api/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/todo/**").hasAnyRole("USER", "ADMIN")
                 .and().httpBasic();
     }
 }
