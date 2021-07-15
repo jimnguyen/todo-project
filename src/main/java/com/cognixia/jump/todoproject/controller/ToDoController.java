@@ -1,5 +1,6 @@
 package com.cognixia.jump.todoproject.controller;
 
+import com.cognixia.jump.todoproject.exception.SameInputException;
 import com.cognixia.jump.todoproject.model.ToDo;
 import com.cognixia.jump.todoproject.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class ToDoController {
     }
 
     @PutMapping(path = "/todo/update/{id}")
-    public ResponseEntity<ToDo> updateTodo(@PathVariable int id, @Valid @RequestBody String description, @Valid @RequestBody Date dueDate) {
-        return toDoService.updateToDo(id, description, dueDate);
+    public ResponseEntity<ToDo> updateTodo(@PathVariable int id, @Valid @RequestBody ToDo updatedTodo) throws SameInputException {
+        return toDoService.updateToDo(id, updatedTodo);
     }
 
     @DeleteMapping(path = "/todo/delete/{id}")

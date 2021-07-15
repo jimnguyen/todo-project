@@ -54,7 +54,6 @@ public class UserService {
 
         //check first name
         if (updatedUser.getFirstName() != null) {
-            System.out.println(updatedUser.getFirstName());
             if (updatedUser.getFirstName().trim().length() < 1) {
 
                 throw new IllegalArgumentException("Please enter a valid first name");
@@ -88,11 +87,8 @@ public class UserService {
         //check username
         if (updatedUser.getUsername() != null) {
             if (updatedUser.getUsername().trim().length() < 1) {
-
                 throw new IllegalArgumentException("Please enter a valid username");
-
             } else if (updatedUser.getUsername().equals(currentUser.getUsername())) {
-
                 throw new SameInputException("username");
             } else {
                 currentUser.setUsername(updatedUser.getUsername());
@@ -109,9 +105,7 @@ public class UserService {
         //check password
         if (updatedUser.getPassword() != null) {
             if (updatedUser.getPassword().trim().length() < 1) {
-
                 throw new IllegalArgumentException("Please enter a valid password to update");
-
             } else if (updatedUser.getPassword().equals(currentUser.getPassword())) {
 
                 throw new SameInputException("password");
