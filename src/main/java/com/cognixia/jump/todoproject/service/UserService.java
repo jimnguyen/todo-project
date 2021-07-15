@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.cognixia.jump.todoproject.exception.SameInputException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,6 @@ public class UserService {
 
 		if (deletedUser.isPresent()) {
 			userRepository.deleteById(id);
-
 			return ResponseEntity.status(200).body(deletedUser.get());
 		}
 
@@ -63,9 +61,9 @@ public class UserService {
 			throw new SameInputException("last name");
 		}
 
-		if (updatedUser.getUserName() == null
-				|| updatedUser.getUserName().length() < 1
-				|| updatedUser.getUserName().equals(currentUser.getUserName())) {
+		if (updatedUser.getUsername() == null
+				|| updatedUser.getUsername().length() < 1
+				|| updatedUser.getUsername().equals(currentUser.getUsername())) {
 			throw new SameInputException("username");
 		}
 

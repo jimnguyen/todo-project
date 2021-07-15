@@ -3,6 +3,7 @@ package com.cognixia.jump.todoproject.controller;
 import com.cognixia.jump.todoproject.exception.SameInputException;
 import com.cognixia.jump.todoproject.model.User;
 import com.cognixia.jump.todoproject.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
