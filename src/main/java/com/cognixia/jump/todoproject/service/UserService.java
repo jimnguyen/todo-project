@@ -3,6 +3,7 @@ package com.cognixia.jump.todoproject.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.cognixia.jump.todoproject.exception.ResourceNotFoundException;
 import com.cognixia.jump.todoproject.exception.SameInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,9 @@ public class UserService {
 		return ResponseEntity.status(400).body(new User());
 	}
 
-	public ResponseEntity<User> updateUser(int id, User updatedUser) throws SameInputException {
+	public ResponseEntity<User> updateUser(int id, User updatedUser) throws SameInputException, ResourceNotFoundException {
 		User currentUser = userRepository.findById(id).orElseThrow(
-				() -> new IllegalStateException("user with " + id + " does not exist")
+				() -> new ResourceNotFoundException("user with " + id + " does not exist")
 		);
 
 		if (updatedUser.getFirstName() == null

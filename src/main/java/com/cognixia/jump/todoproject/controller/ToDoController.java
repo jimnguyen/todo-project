@@ -28,7 +28,6 @@ public class ToDoController {
     
     @PostMapping(path = "/todo")
     public ResponseEntity<ToDo> postTodo(@Valid @RequestBody ToDo toDo) {
-        System.out.println(toDo.getUser());
     	return toDoService.addToDo(toDo);
     }
 
