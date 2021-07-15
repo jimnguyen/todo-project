@@ -54,7 +54,7 @@ public class UserService {
 
         //check first name
         if (updatedUser.getFirstName() != null) {
-			System.out.println(updatedUser.getFirstName());
+            System.out.println(updatedUser.getFirstName());
             if (updatedUser.getFirstName().trim().length() < 1) {
 
                 throw new IllegalArgumentException("Please enter a valid first name");
@@ -63,8 +63,8 @@ public class UserService {
 
                 throw new SameInputException("first name");
             } else {
-				currentUser.setFirstName(updatedUser.getFirstName());
-			}
+                currentUser.setFirstName(updatedUser.getFirstName());
+            }
         } else {
             currentUser.setFirstName(currentUser.getFirstName());
         }
@@ -79,8 +79,8 @@ public class UserService {
 
                 throw new SameInputException("last name");
             } else {
-				currentUser.setLastName(updatedUser.getLastName());
-			}
+                currentUser.setLastName(updatedUser.getLastName());
+            }
         } else {
             currentUser.setLastName(currentUser.getLastName());
         }
@@ -94,9 +94,9 @@ public class UserService {
             } else if (updatedUser.getUsername().equals(currentUser.getUsername())) {
 
                 throw new SameInputException("username");
-            }else {
-				currentUser.setUsername(updatedUser.getUsername());
-			}
+            } else {
+                currentUser.setUsername(updatedUser.getUsername());
+            }
         } else {
             Optional<User> existingUser = userRepository.findByUsername(updatedUser.getUsername());
             if (existingUser.isEmpty()) {
@@ -115,9 +115,9 @@ public class UserService {
             } else if (updatedUser.getPassword().equals(currentUser.getPassword())) {
 
                 throw new SameInputException("password");
-            }else {
-				currentUser.setPassword(updatedUser.getPassword());
-			}
+            } else {
+                currentUser.setPassword(updatedUser.getPassword());
+            }
         } else {
             currentUser.setPassword(currentUser.getPassword());
         }
